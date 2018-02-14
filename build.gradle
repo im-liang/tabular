@@ -17,7 +17,7 @@ allprojects {
 //    Tasks - Application
 //------------------------------------------------------------------------------------------------------------------------
 
-task bootFullApplication(type: GradleBuild) {
+task bootFullstack(type: GradleBuild) {
     group 'application'
     setTasks([':frontend:npmUpdate', ':frontend:clean', ':frontend:buildFrontendToSpring', ':backend:bootRun'])
 }
