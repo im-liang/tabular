@@ -2,28 +2,23 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.soecode.lyf.dao.CustomerDao">
+<mapper namespace="com.tabular.tabular.dao.CustomerDao">
     <select id="queryById" resultType="Customer" parameterType="long">
-        <!-- 具体的sql -->
         SELECT
-        book_id,
-        name,
-        number
+          book_id, name, number
         FROM
-        book
+          customer
         WHERE
-        book_id = #{bookId}
+          book_id = #{bookId}
     </select>
 
     <select id="queryAll" resultType="Customer">
         SELECT
-        book_id,
-        name,
-        number
+          book_id, name, number
         FROM
-        book
+          customer
         ORDER BY
-        book_id
+          book_id
         LIMIT #{offset}, #{limit}
     </select>
 </mapper>
