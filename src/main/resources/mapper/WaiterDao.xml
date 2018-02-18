@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tabular.tabular.dao.CustomerDao">
+    <insert id="insertCustomer">
+        INSERT ignore INTO customer (name, customer_id)
+        VALUES (#{name}, #{customerId})
+    </insert>
+
+    <select id="queryCustomerById" parameterType="long" resultType="Customer">
+        SELECT
+            customer_id, name
+        FROM
+            customer
+        WHERE
+            customer_id = #{customerId}
+    </select>
+
+    <select id="queryCustomerByName" parameterType="text" resultType="Customer">
+        SELECT
+            customer_id, name
+        FROM
+            customer
+        WHERE
+            name = #{name}
+    </select>
+
+    <select id="queryAll" resultMap="Customer">
+        SELECT
+            customer_id, name
+        FROM
+            customer
+    </select>
+</mapper>
