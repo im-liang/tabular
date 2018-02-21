@@ -2,34 +2,107 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tabular.tabular.dao.CustomerDao">
-    <insert id="insertCustomer">
-        INSERT ignore INTO customer (name, customer_id)
-        VALUES (#{name}, #{customerId})
+<mapper namespace="com.tabular.tabular.dao.RestaurantDao">
+    <insert id="createRestaurant">
+        INSERT ignore INTO restaurant (`name`, phone, street, city, state, zip)
+        VALUES (#{name}, #{phone}, #{street}, #{city}, #{state}, #{zip})
     </insert>
 
-    <select id="queryCustomerById" parameterType="long" resultType="Customer">
+    <select id="queryRestaurantById" parameterType="long" resultType="Restaurant">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            restaurant
         WHERE
-            customer_id = #{customerId}
+            restaurant_id = #{restaurantId}
     </select>
 
-    <select id="queryCustomerByName" parameterType="text" resultType="Customer">
+    <select id="queryRestaurantByName" parameterType="String" resultType="Restaurant">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            restaurant
         WHERE
             name = #{name}
     </select>
 
-    <select id="queryAll" resultMap="Customer">
+    <select id="queryRestaurantByPhone" parameterType="String" resultType="Restaurant">
         SELECT
-            customer_id, name
+        *
         FROM
-            customer
+        restaurant
+        WHERE
+        phone = #{phone}
     </select>
+
+    <select id="queryRestaurantByCity" parameterType="String" resultType="Restaurant">
+        SELECT
+        *
+        FROM
+        restaurant
+        WHERE
+        city = #{city}
+    </select>
+
+    <select id="queryRestaurantByState" parameterType="String" resultType="Restaurant">
+        SELECT
+        *
+        FROM
+        restaurant
+        WHERE
+        state = #{state}
+    </select>
+
+    <select id="queryRestaurantByZip" parameterType="String" resultType="Restaurant">
+        SELECT
+        *
+        FROM
+        restaurant
+        WHERE
+        zip = #{zip}
+    </select>
+
+    <select id="queryRestaurantByAddress" parameterType="String" resultType="Restaurant">
+        SELECT
+        *
+        FROM
+        restaurant
+        WHERE
+            street = #{street} AND city=#{city} AND state=#{state} AND zip=#{zip}
+    </select>
+
+    <select id="queryAll" resultType="Restaurant">
+        SELECT
+            *
+        FROM
+            restaurant
+    </select>
+    
+    <update id="modifyRestaurantName">
+        UPDATE restaurant
+        SET `name`=#{name}
+        WHERE restaurant_id = #{restaurantId}
+    </update>
+
+    <update id="modifyRestaurantPhone">
+        UPDATE restaurant
+        SET phone=#{phone}
+        WHERE restaurant_id = #{restaurantId}
+    </update>
+
+    <update id="modifyRestaurantAddress">
+        UPDATE restaurant
+        SET street = #{street}, city=#{city}, state=#{state}, zip=#{zip}
+        WHERE restaurant_id = #{restaurantId}
+    </update>
+
+    <delete id="deleteRestaurantById" parameterType="long" >
+        DELETE FROM restaurant
+        WHERE restaurant_id = #{restaurantId}
+    </delete>
+
+    <delete id="deleteRestaurantByName" parameterType="String" >
+        DELETE FROM restaurant
+        WHERE name = #{name}
+    </delete>
 </mapper>
