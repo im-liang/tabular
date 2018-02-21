@@ -16,7 +16,7 @@ CREATE TABLE `table` (
   `number_limit` int NOT NULL,
   `restaurant_id` bigint(20) not null,
   PRIMARY KEY (`table_id`),
-  FOREIGN KEY (`restaurant_id`) REFERENCES restaurant(restaurant_id)
+  FOREIGN KEY (`restaurant_id`) REFERENCES restaurant(restaurant_id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
@@ -25,6 +25,7 @@ CREATE TABLE `user` (
   `username` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
   `role` INT NOT NULL,
+  `status` int NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 

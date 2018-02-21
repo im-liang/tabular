@@ -20,6 +20,10 @@ public class Restaurant {
         this.zip = zip;
     }
 
+    public long getRestaurantId() {
+        return restaurantId;
+    }
+
     public String getPhone() {
         return phone;
     }
