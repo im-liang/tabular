@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration({ "classpath:config/spring/dao.xml", "classpath:config/spring/service.xml" })

@@ -2,34 +2,80 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tabular.tabular.dao.CustomerDao">
-    <insert id="insertCustomer">
-        INSERT ignore INTO customer (name, customer_id)
-        VALUES (#{name}, #{customerId})
+<mapper namespace="com.tabular.tabular.dao.TableDao">
+    <insert id="insertTable">
+        INSERT ignore INTO `table` (name, number_limit, restaurant_id)
+        VALUES (#{name}, #{numberLimit}, #{restaurantId})
     </insert>
 
-    <select id="queryCustomerById" parameterType="long" resultType="Customer">
+    <select id="queryTableById" parameterType="long" resultType="Table">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            `table`
         WHERE
-            customer_id = #{customerId}
+            table_id = #{tableId}
     </select>
 
-    <select id="queryCustomerByName" parameterType="text" resultType="Customer">
+    <select id="queryRestaurantTableByName" resultType="Table">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            `table`
         WHERE
-            name = #{name}
+            name = #{name} AND restaurant_id = #{restaurantId}
     </select>
 
-    <select id="queryAll" resultMap="Customer">
+    <select id="queryRestaurantTableByLimit" resultType="Table">
         SELECT
-            customer_id, name
+          *
         FROM
-            customer
+          `table`
+        WHERE
+          restaurant_id = #{restaurantId} and number_limit = #{numberLimit}
+    </select>
+
+    <select id="queryRestaurantTableByLessLimit" resultType="Table">
+        SELECT
+        *
+        FROM
+        `table`
+        WHERE
+        restaurant_id = #{restaurantId} and number_limit &lt;= #{numberLimit}
+    </select>
+
+    <select id="queryRestaurantTableByMoreLimit" resultType="Table">
+        SELECT
+        *
+        FROM
+        `table`
+        WHERE
+        restaurant_id = #{restaurantId} and number_limit &gt;= #{numberLimit}
+    </select>
+
+    <!--(between and) == (min <= expr AND expr <= max)-->
+    <select id="queryRestaurantTableByLimitRange" resultType="Table">
+        SELECT
+        *
+        FROM
+        `table`
+        WHERE
+        restaurant_id = #{restaurantId} and number_limit BETWEEN #{lessThan} AND #{moreThan}
+    </select>
+
+    <select id="queryTableByRestaurant" parameterType="long" resultType="Table">
+        SELECT
+        *
+        FROM
+        `table`
+        WHERE
+        restaurant_id = #{restaurantId}
+    </select>
+
+    <select id="queryAll" resultType="Table">
+        SELECT
+        *
+        FROM
+        `table`
     </select>
 </mapper>
