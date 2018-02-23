@@ -1,14 +1,89 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tabular.tabular.dao.UserDao">
+    <insert id="createUser">
+        INSERT ignore INTO
+            user (username, password, role, status)
+        VALUES
+            (#{username}, #{password}, #{role}, #{status})
+    </insert>
 
-<taglib xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
-        version="2.1">
+    <select id="queryUserById" parameterType="long" resultType="User">
+        SELECT
+            *
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+    </select>
 
-    <tlib-version>1.0</tlib-version>
-    <short-name>myshortname</short-name>
-    <uri>http://mycompany.com</uri>
+    <select id="queryUserByUsername" parameterType="String" resultType="User">
+        SELECT
+            *
+        FROM
+            user
+        WHERE
+            username = #{username}
+    </select>
 
-    <!-- Invoke 'Generate' action to add tags or functions -->
+    <select id="queryUserByRole" parameterType="int" resultType="User">
+        SELECT
+            *
+        FROM
+            user
+        WHERE
+            role = #{role}
+    </select>
 
-</taglib>
+    <select id="queryUserByStatus" parameterType="int" resultType="User">
+        SELECT
+            *
+        FROM
+            user
+        WHERE
+            status = #{status}
+    </select>
+
+    <select id="queryAll" resultType="User">
+        SELECT
+            *
+        FROM
+            user
+    </select>
+
+    <update id="modifyUsername">
+        UPDATE user
+        SET username=#{username}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="modifyUserPassword">
+        UPDATE user
+        SET password=#{password}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="modifyUserRole">
+        UPDATE user
+        SET role=#{role}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="modifyUserStatus">
+        UPDATE user
+        SET status=#{status}
+        WHERE user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserById" parameterType="long" >
+        DELETE FROM user
+        WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteUserByName" parameterType="String" >
+        DELETE FROM user
+        WHERE username = #{username}
+    </delete>
+</mapper>
