@@ -1,7 +1,7 @@
 package com.tabular.tabular.entity;
 
 public class User {
-    private long id;
+    private long userId;
     private String username;
     private String password;
     private int role;
@@ -9,12 +9,15 @@ public class User {
 
     public User() {}
 
-    public User(long id, String username, String password, int role, int status) {
-        this.id = id;
+    public User(String username, String password, int role, int status) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.status = status;
+    }
+
+    public long getUserId() {
+        return userId;
     }
 
     public String getUsername() {

@@ -3,22 +3,39 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tabular.tabular.dao.CustomerDao">
-    <select id="queryById" resultType="Customer" parameterType="long">
+    <insert id="insertCustomer">
+        INSERT ignore INTO customer (`name`, customer_id)
+        VALUES (#{name}, #{customerId})
+    </insert>
+
+    <select id="queryCustomerById" parameterType="long" resultType="Customer">
         SELECT
-          book_id, name, number
+            *
         FROM
-          customer
+            customer
         WHERE
-          book_id = #{bookId}
+            customer_id = #{customerId}
+    </select>
+
+    <select id="queryCustomerByName" parameterType="String" resultType="Customer">
+        SELECT
+            *
+        FROM
+            customer
+        WHERE
+            `name` = #{name}
     </select>
 
     <select id="queryAll" resultType="Customer">
         SELECT
-          book_id, name, number
+            *
         FROM
-          customer
-        ORDER BY
-          book_id
-        LIMIT #{offset}, #{limit}
+            customer
     </select>
+
+    <update id="modifyCustomerName">
+        UPDATE customer
+        SET `name` = #{name}
+        WHERE customer_id = #{customerId}
+    </update>
 </mapper>
