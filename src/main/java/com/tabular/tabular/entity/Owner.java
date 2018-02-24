@@ -16,6 +16,10 @@ public class Owner {
         this.restaurantId = restaurantId;
     }
 
+    public long getOwnerId() {
+        return ownerId;
+    }
+
     public String getLastName() {
         return lastName;
     }

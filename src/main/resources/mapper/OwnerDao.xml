@@ -2,34 +2,79 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tabular.tabular.dao.CustomerDao">
-    <insert id="insertCustomer">
-        INSERT ignore INTO customer (name, customer_id)
-        VALUES (#{name}, #{customerId})
+<mapper namespace="com.tabular.tabular.dao.OwnerDao">
+    <insert id="insertOwner">
+        INSERT ignore INTO owner (owner_id, first_name, last_name, restaurant_id)
+        VALUES (#{ownerId}, #{firstName}, #{lastName}, #{restaurantId})
     </insert>
 
-    <select id="queryCustomerById" parameterType="long" resultType="Customer">
+    <select id="queryOwnerById" parameterType="long" resultType="Owner">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            owner
         WHERE
-            customer_id = #{customerId}
+            owner_id = #{ownerId}
     </select>
 
-    <select id="queryCustomerByName" parameterType="text" resultType="Customer">
+    <select id="queryOwnerByFirstName" parameterType="String" resultType="Owner">
         SELECT
-            customer_id, name
+        *
         FROM
-            customer
+        owner
         WHERE
-            name = #{name}
+        first_name = #{firstName}
     </select>
 
-    <select id="queryAll" resultMap="Customer">
+    <select id="queryOwnerByLastName" parameterType="String" resultType="Owner">
         SELECT
-            customer_id, name
+        *
         FROM
-            customer
+        owner
+        WHERE
+        last_name = #{lastName}
     </select>
+
+    <select id="queryOwnerByFullName" parameterType="String" resultType="Owner">
+        SELECT
+            *
+        FROM
+            owner
+        WHERE
+            first_name = #{firstName} AND last_name = #{lastName}
+    </select>
+
+    <select id="queryOwnerByRestaurant" parameterType="long" resultType="Owner">
+        SELECT
+        *
+        FROM
+        owner
+        WHERE
+        restaurant_id = #{restaurantId}
+    </select>
+
+    <select id="queryAll" resultType="Owner">
+        SELECT
+            *
+        FROM
+            owner
+    </select>
+
+    <update id="modifyOwnerFirstName">
+        UPDATE owner
+        SET first_name = #{firstName}
+        WHERE owner_id = #{ownerId}
+    </update>
+
+    <update id="modifyOwnerLastName">
+        UPDATE owner
+        SET last_name = #{lastName}
+        WHERE owner_id = #{ownerId}
+    </update>
+
+    <update id="modifyOwnerFullName">
+        UPDATE owner
+        SET first_name = #{firstName}, last_name = #{lastName}
+        WHERE owner_id = #{ownerId}
+    </update>
 </mapper>
