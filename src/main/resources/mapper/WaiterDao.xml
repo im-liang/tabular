@@ -2,34 +2,60 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tabular.tabular.dao.CustomerDao">
-    <insert id="insertCustomer">
-        INSERT ignore INTO customer (name, customer_id)
-        VALUES (#{name}, #{customerId})
+<mapper namespace="com.tabular.tabular.dao.WaiterDao">
+    <insert id="insertWaiter">
+        INSERT ignore INTO waiter (waiter_id, `name`, owner_id)
+        VALUES (#{waiterId}, #{name}, #{ownerId})
     </insert>
 
-    <select id="queryCustomerById" parameterType="long" resultType="Customer">
+    <select id="queryWaiterById" parameterType="long" resultType="Waiter">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            waiter
         WHERE
-            customer_id = #{customerId}
+            waiter_id = #{waiterId}
     </select>
 
-    <select id="queryCustomerByName" parameterType="text" resultType="Customer">
+    <select id="queryWaiterByName" parameterType="String" resultType="Waiter">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            waiter
         WHERE
-            name = #{name}
+            `name` = #{name}
     </select>
 
-    <select id="queryAll" resultMap="Customer">
+    <select id="queryWaiterUnderOwnerByName" resultType="Waiter">
         SELECT
-            customer_id, name
+        *
         FROM
-            customer
+        waiter
+        WHERE
+        `name` = #{name} AND owner_id = #{ownerId}
     </select>
+
+    <select id="queryWaiterByOwner" parameterType="long" resultType="Waiter">
+        SELECT
+            *
+        FROM
+            waiter
+        WHERE
+            owner_id = #{ownerId}
+    </select>
+
+    <select id="queryAll" resultType="Waiter">
+        SELECT
+            *
+        FROM
+            waiter
+    </select>
+
+    <update id="modifyWaiterName">
+        UPDATE waiter
+        SET `name` = #{name}
+        WHERE waiter_id = #{waiterId}
+    </update>
+
+
 </mapper>

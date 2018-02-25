@@ -13,6 +13,10 @@ public class Waiter {
         this.ownerId = ownerId;
     }
 
+    public long getWaiterId() {
+        return waiterId;
+    }
+
     public String getName() {
 
         return name;
