@@ -5,15 +5,15 @@ import java.util.Date;
 public class Appointment2Customer {
     private long appointment2CustomerId;
     private long appointId;
-    private long waiterId;
+    private long customerId;
     private Date time;
     public Appointment2Customer() {
 
     }
 
-    public Appointment2Customer(long appointId, long waiterId) {
+    public Appointment2Customer(long appointId, long customerId) {
         this.appointId = appointId;
-        this.waiterId = waiterId;
+        this.customerId = customerId;
     }
 
     public long getAppointId() {
@@ -24,12 +24,12 @@ public class Appointment2Customer {
         this.appointId = appointId;
     }
 
-    public long getWaiterId() {
-        return waiterId;
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public void setWaiterId(long waiterId) {
-        this.waiterId = waiterId;
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
     public Date getTime() {
