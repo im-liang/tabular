@@ -2,34 +2,99 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tabular.tabular.dao.CustomerDao">
-    <insert id="insertCustomer">
-        INSERT ignore INTO customer (name, customer_id)
-        VALUES (#{name}, #{customerId})
+<mapper namespace="com.tabular.tabular.dao.AppointmentDao">
+    <insert id="createAppointment">
+        INSERT ignore INTO appointment (datetime, status, table_id)
+        VALUES (#{datetime}, #{status}, #{tableId})
     </insert>
 
-    <select id="queryCustomerById" parameterType="long" resultType="Customer">
+    <select id="queryAppointmentById" parameterType="long" resultType="Appointment">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            appointment
         WHERE
-            customer_id = #{customerId}
+            appointment_id = #{appointmentId}
     </select>
 
-    <select id="queryCustomerByName" parameterType="text" resultType="Customer">
+    <select id="queryAppointmentByTimeRange" resultType="Appointment">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            appointment
         WHERE
-            name = #{name}
+            table_id = #{tableId} AND datetime BETWEEN #{startTime} AND #{endTime}
     </select>
 
-    <select id="queryAll" resultMap="Customer">
+    <select id="queryAllPastAppointment" resultType="Appointment">
         SELECT
-            customer_id, name
+            *
         FROM
-            customer
+            appointment
+        WHERE
+            table_id = #{tableId} AND datetime &lt; #{dateTime}
     </select>
+
+    <select id="queryPastAppointmentWithStatus" resultType="Appointment">
+        SELECT
+        *
+        FROM
+        appointment
+        WHERE
+        table_id = #{tableId} AND datetime &lt; #{dateTime} AND status = #{status}
+    </select>
+
+    <select id="queryAllFutureAppointment" resultType="Appointment">
+        SELECT
+        *
+        FROM
+        appointment
+        WHERE
+            table_id = #{tableId} AND datetime &gt; #{dateTime}
+    </select>
+
+    <select id="queryFutureAppointmentWithStatus" resultType="Appointment">
+        SELECT
+        *
+        FROM
+        appointment
+        WHERE
+        table_id = #{tableId} AND datetime &gt; #{dateTime} AND status = #{status}
+    </select>
+
+    <select id="queryAppointmentWithStatus" resultType="Appointment">
+        SELECT
+        *
+        FROM
+        appointment
+        WHERE
+        table_id = #{tableId} AND status = #{status}
+    </select>
+
+    <select id="queryAppointmentByTable" parameterType="long" resultType="Appointment">
+        SELECT
+        *
+        FROM
+        appointment
+        WHERE
+        table_id = #{tableId}
+    </select>
+
+    <select id="queryAll" resultType="Appointment">
+        SELECT
+            *
+        FROM
+            appointment
+    </select>
+
+    <update id="modifyAppointmentStatus">
+        UPDATE appointment
+        SET status = #{status}
+        WHERE appointment_id = #{appointmentId}
+    </update>
+
+    <delete id="deleteAppointmentById" parameterType="long" >
+        DELETE FROM appointment
+        WHERE appointment_id = #{appointmentId}
+    </delete>
 </mapper>

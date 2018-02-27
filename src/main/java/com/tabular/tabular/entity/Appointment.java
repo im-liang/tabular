@@ -4,24 +4,28 @@ import java.util.Date;
 
 public class Appointment {
     private long appointmentId;
-    private Date startTime;
+    private Date datetime;
     private int status;
     private long tableId;
 
     public Appointment() {}
 
-    public Appointment(Date startTime, int status, long tableId) {
-        this.startTime = startTime;
+    public Appointment(Date datetime, int status, long tableId) {
+        this.datetime = datetime;
         this.status = status;
         this.tableId = tableId;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public long getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
     }
 
     public int getStatus() {

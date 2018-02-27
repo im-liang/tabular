@@ -34,7 +34,7 @@ CREATE TABLE `customer` (
   `customer_id` bigint(20) NOT NULL,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`customer_id`),
-  FOREIGN KEY (`customer_id`) REFERENCES user(user_id)
+  FOREIGN KEY (`customer_id`) REFERENCES user(user_id) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
@@ -44,7 +44,7 @@ CREATE TABLE `owner` (
   `first_name` varchar(100) NOT NULL,
   `restaurant_id` bigint(20)  NOT NULL,
   PRIMARY KEY (`owner_id`),
-  FOREIGN KEY (`owner_id`) REFERENCES user(user_id),
+  FOREIGN KEY (`owner_id`) REFERENCES user(user_id) ON DELETE CASCADE,
   FOREIGN KEY (`restaurant_id`) REFERENCES restaurant(restaurant_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -54,7 +54,7 @@ CREATE TABLE `waiter` (
   `name` varchar(100) NOT NULL,
   `owner_id` bigint(20) NOT NULL,
   PRIMARY KEY (`waiter_id`),
-  FOREIGN KEY (`waiter_id`) REFERENCES user(user_id),
+  FOREIGN KEY (`waiter_id`) REFERENCES user(user_id) ON DELETE CASCADE,
   FOREIGN KEY (`owner_id`) REFERENCES owner(owner_id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
