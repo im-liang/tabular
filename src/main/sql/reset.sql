@@ -6,6 +6,5 @@ drop table if exists restaurant;
 drop table if exists `table`;
 drop table if exists user;
 drop table if exists waiter;
-drop table if exists appointment2customer;
-drop table if exists appointment2waiter;
+drop table if exists appointment2user;
 SET FOREIGN_KEY_CHECKS = 1;
