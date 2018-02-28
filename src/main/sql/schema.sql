@@ -61,7 +61,7 @@ CREATE TABLE `waiter` (
 
 CREATE TABLE `appointment` (
   `appointment_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `start_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime` DATETIME NOT NULL,
   `status` int NOT NULL,
   `table_id` bigint(20) NOT NULL,
   PRIMARY KEY (`appointment_id`),
@@ -69,23 +69,12 @@ CREATE TABLE `appointment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `appointment2customer` (
-  `appointment2customer_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `appointment2user` (
+  `appointment2user_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `appointment_id` bigint(20) NOT NULL,
-  `customer_id` bigint(20) NOT NULL,
-  `time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`appointment2customer_id`),
+  `user_id` bigint(20) NOT NULL,
+  `datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`appointment2user_id`),
   FOREIGN KEY (`appointment_id`) REFERENCES appointment(`appointment_id`),
-  FOREIGN KEY (`customer_id`) REFERENCES customer(`customer_id`)
+  FOREIGN KEY (`user_id`) REFERENCES user(`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE `appointment2waiter` (
-  `appointment2waiter_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `appointment_id` bigint(20) NOT NULL,
-  `waiter_id` bigint(20) NOT NULL,
-  `time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`appointment2waiter_id`),
-  FOREIGN KEY (`appointment_id`) REFERENCES appointment(`appointment_id`),
-  FOREIGN KEY (`waiter_id`) REFERENCES waiter(`waiter_id`)
-)

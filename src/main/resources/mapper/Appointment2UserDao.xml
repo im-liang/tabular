@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tabular.tabular.dao.Appointment2CustomerDao">
+    <insert id="createRelation">
+        INSERT ignore INTO appointment2customer (appointment_id, customer_id)
+        VALUES (#{appointmentId}, #{customerId})
+    </insert>
+
+    <select id="queryByAppointmentId" parameterType="long" resultType="Appointment2Customer">
+        SELECT
+        *
+        FROM appointment2customer
+        WHERE appointment_id = #{appointmentId}
+    </select>
+
+    <select id="queryByCustomerId" parameterType="long" resultType="Appointment2Customer">
+        SELECT
+            *
+        FROM appointment2customer
+        WHERE customer_id = #{customerId}
+    </select>
+
+    <select id="queryPastRelations" parameterType="Date" resultType="Appointment2Customer">
+        SELECT
+        *
+        FROM appointment2customer
+        WHERE datetime &lt; #{datetime}
+    </select>
+</mapper>
