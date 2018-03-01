@@ -1,6 +1,6 @@
 package com.tabular.tabular.dao;
 
-import com.tabular.tabular.entity.Customer;
+import com.tabular.tabular.entity.User;
 import com.tabular.tabular.entity.Waiter;
 import com.tabular.tabular.enums.UserRoleEnum;
 import com.tabular.tabular.enums.UserStatusEnum;
@@ -40,12 +40,17 @@ public class WaiterDaoTest {
 
     @Before
     public void initTest() {
-        userDao.createUser("owner", "password", UserRoleEnum.OWNER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userDao.createUser("waiter", "password", UserRoleEnum.WAITER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        User owner = new User("owner", "password", UserRoleEnum.OWNER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userDao.createUser(owner);
+        ownerId = owner.getUserId();
+
+        User waiter = new User("waiter", "password", UserRoleEnum.WAITER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userDao.createUser(waiter);
+        waiterId = waiter.getUserId();
+
         restaurantDao.createRestaurant("qq", "qq", "qq", "qq", "qq", "qq");
         long restaurantId = restaurantDao.queryRestaurantByName("qq").getRestaurantId();
-        ownerId = userDao.queryUserByUsername("owner").getUserId();
-        waiterId = userDao.queryUserByUsername("waiter").getUserId();
+
         ownerDao.insertOwner(ownerId, "owner", "last1", restaurantId);
         waiterDao.insertWaiter(waiterId, "waiter", ownerId);
     }

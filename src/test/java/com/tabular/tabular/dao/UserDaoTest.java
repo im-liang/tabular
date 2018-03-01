@@ -1,6 +1,5 @@
 package com.tabular.tabular.dao;
 
-import com.tabular.tabular.entity.Restaurant;
 import com.tabular.tabular.entity.User;
 import com.tabular.tabular.enums.UserRoleEnum;
 import com.tabular.tabular.enums.UserStatusEnum;
@@ -34,16 +33,16 @@ public class UserDaoTest {
 
     @Before
     public void initTest() {
-        userDao.createUser("customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userDao.createUser("owner", "password", UserRoleEnum.OWNER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userDao.createUser("waiter", "password", UserRoleEnum.WAITER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userDao.createUser(new User("customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
+        userDao.createUser(new User("owner", "password", UserRoleEnum.OWNER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
+        userDao.createUser(new User("waiter", "password", UserRoleEnum.WAITER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
 
         customerId = userDao.queryUserByUsername("customer").getUserId();
     }
 
     @Test
     public void testCreateUser() throws Exception {
-        int result = userDao.createUser("test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        int result = userDao.createUser(new User("test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
         System.out.println(result);
     }
 

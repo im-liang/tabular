@@ -1,6 +1,7 @@
 package com.tabular.tabular.dao;
 
 import com.tabular.tabular.entity.Customer;
+import com.tabular.tabular.entity.User;
 import com.tabular.tabular.enums.UserRoleEnum;
 import com.tabular.tabular.enums.UserStatusEnum;
 import org.junit.After;
@@ -35,10 +36,14 @@ public class CustomerDaoTest {
 
     @Before
     public void initTest() {
-        userDao.createUser("customer1", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userDao.createUser("customer2", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userId1 = userDao.queryUserByUsername("customer1").getUserId();
-        userId2 = userDao.queryUserByUsername("customer2").getUserId();
+        User user1 = new User("customer1", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userDao.createUser(user1);
+        userId1 = user1.getUserId();
+
+        User user2 = new User("customer2", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userDao.createUser(user2);
+        userId2 = user2.getUserId();
+
         customerDao.insertCustomer(userId2, "customer2");
     }
 

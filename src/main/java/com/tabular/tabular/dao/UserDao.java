@@ -4,10 +4,9 @@ import com.tabular.tabular.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserDao {
-    int createUser(@Param("username") String username, @Param("password") String password, @Param("role") int role, @Param("status") int status);
+    int createUser(final User user);
     User queryUserById(long id);
     User queryUserByUsername(String username);
     List<User> queryUserByRole(int role);
