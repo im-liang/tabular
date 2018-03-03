@@ -1,5 +1,6 @@
 package com.tabular.tabular.dao;
 
+import com.tabular.tabular.BaseTests;
 import com.tabular.tabular.entity.Customer;
 import com.tabular.tabular.entity.User;
 import com.tabular.tabular.enums.UserRoleEnum;
@@ -16,10 +17,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration({ "classpath:config/spring/dao.xml", "classpath:config/spring/service.xml" })
-@SpringBootTest
-public class CustomerDaoTest {
+public class CustomerDaoTest extends BaseTests {
     @Autowired
     UserDao userDao;
     @Autowired

@@ -1,5 +1,6 @@
 package com.tabular.tabular.dao;
 
+import com.tabular.tabular.BaseTests;
 import com.tabular.tabular.entity.Appointment;
 import com.tabular.tabular.entity.Restaurant;
 import com.tabular.tabular.entity.Table;
@@ -17,10 +18,7 @@ import org.springframework.util.Assert;
 import java.util.Date;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration({ "classpath:config/spring/dao.xml", "classpath:config/spring/service.xml" })
-@SpringBootTest
-public class AppointmentDaoTest {
+public class AppointmentDaoTest extends BaseTests {
     @Autowired
     RestaurantDao restaurantDao;
     @Autowired
