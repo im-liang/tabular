@@ -28,12 +28,14 @@ public class TableDaoTest {
 
     @Before
     public void createTestRestaurantTables() {
-        restaurantDao.createRestaurant("test1", "4342967926", "1 quaker rd", "stony brook", "New York", "11790");
-        restaurantDao.createRestaurant("test2", "4342967927", "2 quaker rd", "stony brook", "New York", "11790");
-        Restaurant restaurant1 = restaurantDao.queryRestaurantByName("test1");
-        Restaurant restaurant2 = restaurantDao.queryRestaurantByName("test2");
+        Restaurant restaurant1 = new Restaurant("test1", "4342967926", "1 quaker rd", "stony brook", "New York", "11790");
+        restaurantDao.createRestaurant(restaurant1);
         restaurantId1 = restaurant1.getRestaurantId();
+
+        Restaurant restaurant2 = new Restaurant("test2", "4342967927", "2 quaker rd", "stony brook", "New York", "11790");
+        restaurantDao.createRestaurant(restaurant2);
         restaurantId2 = restaurant2.getRestaurantId();
+
         tableDao.insertTable(new Table("table1", 3, restaurantId1));
         tableDao.insertTable(new Table("table2", 2, restaurantId1));
         tableDao.insertTable(new Table("table1", 2, restaurantId2));

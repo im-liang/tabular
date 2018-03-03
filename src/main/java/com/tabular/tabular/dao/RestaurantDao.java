@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface RestaurantDao {
-    int createRestaurant(@Param("name") String name, @Param("phone") String phone, @Param("street") String street, @Param("city") String city, @Param("state") String state, @Param("zip") String zip);
+    int createRestaurant(final Restaurant restaurant);
     Restaurant queryRestaurantById(long restaurantId);
     Restaurant queryRestaurantByName(String name);
     Restaurant queryRestaurantByPhone(String phone);

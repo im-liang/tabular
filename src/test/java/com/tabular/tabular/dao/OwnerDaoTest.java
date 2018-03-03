@@ -1,6 +1,7 @@
 package com.tabular.tabular.dao;
 
 import com.tabular.tabular.entity.Owner;
+import com.tabular.tabular.entity.Restaurant;
 import com.tabular.tabular.entity.User;
 import com.tabular.tabular.enums.UserRoleEnum;
 import com.tabular.tabular.enums.UserStatusEnum;
@@ -50,10 +51,14 @@ public class OwnerDaoTest {
         userDao.createUser(user2);
         userId2 = user2.getUserId();
 
-        restaurantDao.createRestaurant("res", "s", "q", "s", "s", "sdf");
-        restaurantDao.createRestaurant("yo", "df", "a", "a", "a", "bb");
-        restaurantId1 = restaurantDao.queryRestaurantByName("res").getRestaurantId();
-        restaurantId2 = restaurantDao.queryRestaurantByName("yo").getRestaurantId();
+        Restaurant restaurant1 = new Restaurant("res", "s", "q", "s", "s", "sdf");
+        restaurantDao.createRestaurant(restaurant1);
+        restaurantId1 = restaurant1.getRestaurantId();
+
+        Restaurant restaurant2 = new Restaurant("yo", "df", "a", "a", "a", "bb");
+        restaurantDao.createRestaurant(restaurant2);
+        restaurantId2 = restaurant2.getRestaurantId();
+
         ownerDao.insertOwner(userId2, "owner2", "last2", restaurantId2);
     }
 

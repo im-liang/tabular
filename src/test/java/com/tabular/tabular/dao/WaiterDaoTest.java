@@ -1,5 +1,6 @@
 package com.tabular.tabular.dao;
 
+import com.tabular.tabular.entity.Restaurant;
 import com.tabular.tabular.entity.User;
 import com.tabular.tabular.entity.Waiter;
 import com.tabular.tabular.enums.UserRoleEnum;
@@ -48,8 +49,9 @@ public class WaiterDaoTest {
         userDao.createUser(waiter);
         waiterId = waiter.getUserId();
 
-        restaurantDao.createRestaurant("qq", "qq", "qq", "qq", "qq", "qq");
-        long restaurantId = restaurantDao.queryRestaurantByName("qq").getRestaurantId();
+        Restaurant restaurant = new Restaurant("qq", "qq", "qq", "qq", "qq", "qq");
+        restaurantDao.createRestaurant(restaurant);
+        long restaurantId = restaurant.getRestaurantId();
 
         ownerDao.insertOwner(ownerId, "owner", "last1", restaurantId);
         waiterDao.insertWaiter(waiterId, "waiter", ownerId);

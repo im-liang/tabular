@@ -3,7 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tabular.tabular.dao.RestaurantDao">
-    <insert id="createRestaurant">
+    <insert id="createRestaurant" parameterType="com.tabular.tabular.entity.Restaurant">
+        <selectKey keyProperty="restaurantId" order="AFTER" resultType="long">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         INSERT ignore INTO restaurant (`name`, phone, street, city, state, zip)
         VALUES (#{name}, #{phone}, #{street}, #{city}, #{state}, #{zip})
     </insert>

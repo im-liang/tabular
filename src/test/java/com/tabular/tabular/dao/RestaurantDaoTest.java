@@ -22,9 +22,9 @@ public class RestaurantDaoTest {
 
     @Before
     public void createTestRestaurants() {
-        restaurantDao.createRestaurant("test1", "4342967926", "1 quaker rd", "stony brook", "New York", "11790");
-        restaurantDao.createRestaurant("test2", "4342967927", "2 quaker rd", "stony brook", "New York", "11790");
-        restaurantDao.createRestaurant("test3", "4342967928", "3 quaker rd", "brooklyn", "New York", "11219");
+        restaurantDao.createRestaurant(new Restaurant("test1", "4342967926", "1 quaker rd", "stony brook", "New York", "11790"));
+        restaurantDao.createRestaurant(new Restaurant("test2", "4342967927", "2 quaker rd", "stony brook", "New York", "11790"));
+        restaurantDao.createRestaurant(new Restaurant("test3", "4342967928", "3 quaker rd", "brooklyn", "New York", "11219"));
     }
 
     private void checkRestaurantEquality(Restaurant restaurant, String name, String phone, String street, String city, String state, String zip) {
@@ -39,7 +39,7 @@ public class RestaurantDaoTest {
 
     @Test
     public void testCreateRestaurant() throws Exception {
-        int result = restaurantDao.createRestaurant("test4", "4342967929", "4 quaker rd", "hoboken", "New Jersey", "15550");
+        int result = restaurantDao.createRestaurant(new Restaurant("test4", "4342967929", "4 quaker rd", "hoboken", "New Jersey", "15550"));
         System.out.println(result);
     }
 

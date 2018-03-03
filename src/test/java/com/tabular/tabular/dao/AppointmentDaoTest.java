@@ -1,6 +1,7 @@
 package com.tabular.tabular.dao;
 
 import com.tabular.tabular.entity.Appointment;
+import com.tabular.tabular.entity.Restaurant;
 import com.tabular.tabular.entity.Table;
 import com.tabular.tabular.enums.AppointmentStatusEnum;
 import org.junit.After;
@@ -36,8 +37,10 @@ public class AppointmentDaoTest {
 
     @Before
     public void initTest() {
-        restaurantDao.createRestaurant("restaurant", "w", "w", "w", "w", "w");
-        long restaurantId = restaurantDao.queryRestaurantByName("restaurant").getRestaurantId();
+        Restaurant restaurant = new Restaurant("restaurant", "w", "w", "w", "w", "w");
+        restaurantDao.createRestaurant(restaurant);
+        long restaurantId = restaurant.getRestaurantId();
+
         Table table = new Table("table", 3, restaurantId);
         tableDao.insertTable(table);
         tableId = table.getTableId();
