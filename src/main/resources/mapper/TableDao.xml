@@ -3,7 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tabular.tabular.dao.TableDao">
-    <insert id="insertTable">
+    <insert id="insertTable" parameterType="com.tabular.tabular.entity.Table">
+        <selectKey keyProperty="tableId" order="AFTER" resultType="long">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         INSERT ignore INTO `table` (name, number_limit, restaurant_id)
         VALUES (#{name}, #{numberLimit}, #{restaurantId})
     </insert>

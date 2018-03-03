@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface TableDao {
-    int insertTable(@Param("name") String name, @Param("numberLimit") int numberLimit, @Param("restaurantId") long restaurantId);
+    int insertTable(final Table table);
     Table queryTableById(long tableId);
     Table queryRestaurantTableByName(@Param("name") String name, @Param("restaurantId") long restaurantId);
     List<Table> queryRestaurantTableByLimit(@Param("restaurantId") long restaurantId, @Param("numberLimit") int numberLimit);

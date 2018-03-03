@@ -14,6 +14,10 @@ public class Table {
         this.restaurantId = restaurantId;
     }
 
+    public long getTableId() {
+        return tableId;
+    }
+
     public String getName() {
         return name;
     }

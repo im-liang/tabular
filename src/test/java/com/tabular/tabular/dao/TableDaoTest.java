@@ -34,14 +34,14 @@ public class TableDaoTest {
         Restaurant restaurant2 = restaurantDao.queryRestaurantByName("test2");
         restaurantId1 = restaurant1.getRestaurantId();
         restaurantId2 = restaurant2.getRestaurantId();
-        tableDao.insertTable("table1", 3, restaurantId1);
-        tableDao.insertTable("table2", 2, restaurantId1);
-        tableDao.insertTable("table1", 2, restaurantId2);
+        tableDao.insertTable(new Table("table1", 3, restaurantId1));
+        tableDao.insertTable(new Table("table2", 2, restaurantId1));
+        tableDao.insertTable(new Table("table1", 2, restaurantId2));
     }
 
     @Test
     public void testCreateTable() throws Exception {
-        int result = tableDao.insertTable("table3", 3, restaurantId1);
+        int result = tableDao.insertTable(new Table("table3", 3, restaurantId1));
         System.out.println(result);
     }
 
