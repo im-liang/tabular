@@ -2,41 +2,45 @@ package com.tabular.tabular.entity;
 
 import java.util.Date;
 
-public class Appointment2Customer {
-    private long appointment2CustomerId;
-    private long appointId;
-    private long customerId;
-    private Date time;
-    public Appointment2Customer() {
+public class Appointment2User {
+    private long appointment2UserId;
+    private long appointmentId;
+    private long userId;
+    private Date datetime;
+    public Appointment2User() {
 
     }
 
-    public Appointment2Customer(long appointId, long customerId) {
-        this.appointId = appointId;
-        this.customerId = customerId;
+    public Appointment2User(long appointmentId, long userId) {
+        this.appointmentId = appointmentId;
+        this.userId = userId;
     }
 
-    public long getAppointId() {
-        return appointId;
+    public long getAppointment2UserId() {
+        return appointment2UserId;
     }
 
-    public void setAppointId(long appointId) {
-        this.appointId = appointId;
+    public long getAppointmentId() {
+        return appointmentId;
     }
 
-    public long getCustomerId() {
-        return customerId;
+    public void setAppointmentId(long appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
+    public long getUserId() {
+        return userId;
     }
 
-    public Date getTime() {
-        return time;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
     }
 }

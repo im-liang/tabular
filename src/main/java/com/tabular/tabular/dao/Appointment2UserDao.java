@@ -1,13 +1,15 @@
 package com.tabular.tabular.dao;
 
-import com.tabular.tabular.entity.Appointment2Customer;
+import com.tabular.tabular.entity.Appointment2User;
 
 import java.util.Date;
 import java.util.List;
 
-public interface Appointment2CustomerDao {
-    int createRelation(long appointmentId, long customerId);
-    List<Appointment2Customer> queryByAppointmentId(long appointmentId);
-    List<Appointment2Customer> queryByCustomerId(long customerId);
-    List<Appointment2Customer> queryPastRelations(Date datetime);
+public interface Appointment2UserDao {
+    int createRelation(final Appointment2User appointment2User);
+    List<Appointment2User> queryByAppointmentId(long appointmentId);
+    List<Appointment2User> queryByUserId(long userId);
+    List<Appointment2User> queryPastRelations(Date datetime);
+    List<Appointment2User> queryAll();
+    int deleteRelation(long appointment2userId);
 }
