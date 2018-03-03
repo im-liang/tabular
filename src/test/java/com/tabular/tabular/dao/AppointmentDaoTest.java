@@ -41,8 +41,10 @@ public class AppointmentDaoTest {
         Table table = new Table("table", 3, restaurantId);
         tableDao.insertTable(table);
         tableId = table.getTableId();
-        appointmentDao.createAppointment(new Date(118, 9, 15), AppointmentStatusEnum.CONFIRMED.getStatus(), tableId);
-        appointmentId = appointmentDao.queryAppointmentByTable(tableId).get(0).getAppointmentId();
+
+        Appointment appointment = new Appointment(new Date(118, 9, 15), AppointmentStatusEnum.CONFIRMED.getStatus(), tableId);
+        appointmentDao.createAppointment(appointment);
+        appointmentId = appointment.getAppointmentId();
     }
 
     @Test

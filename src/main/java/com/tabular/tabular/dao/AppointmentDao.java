@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface AppointmentDao {
-    int createAppointment(@Param("datetime") Date datetime, @Param("status") int status, @Param("tableId") long tableId);
+    int createAppointment(final Appointment appointment);
     Appointment queryAppointmentById(@Param("appointmentId") long appointmentId);
     List<Appointment> queryAppointmentByTimeRange(@Param("tableId") long tableId, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
     List<Appointment> queryAllPastAppointment(@Param("tableId") long tableId, @Param("dateTime") Date dateTime);
