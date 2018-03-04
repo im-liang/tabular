@@ -40,8 +40,9 @@ public class UserDaoTest extends BaseTests {
 
     @Test
     public void testCreateUser() throws Exception {
-        int result = userDao.createUser(new User("test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
-        System.out.println(result);
+        User user = new User("test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userDao.createUser(user);
+        checkUserEquality(user, "test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
     }
 
     @Test

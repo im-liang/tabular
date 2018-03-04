@@ -27,18 +27,17 @@ public class CustomerDaoTest extends BaseTests {
     private long userId2;
 
     private void checkCustomerEquality(Customer customer, long customerId, String name) {
-        System.out.println("customer id: " + customer.getCustomerId());
         Assert.isTrue(customer.getCustomerId() == customerId, "customer id not match");
         Assert.isTrue(customer.getName().equals(name), "customer name not match");
     }
 
     @Before
     public void initTest() {
-        User user1 = new User("customer1", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        User user1 = new User("user1", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
         userDao.createUser(user1);
         userId1 = user1.getUserId();
 
-        User user2 = new User("customer2", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        User user2 = new User("user2", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
         userDao.createUser(user2);
         userId2 = user2.getUserId();
 
