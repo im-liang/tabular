@@ -6,7 +6,8 @@ CREATE TABLE `restaurant` (
   `city` varchar(30) NOT NULL,
   `state` varchar(100) NOT NULL,
   `zip` varchar(30) NOT NULL,
-  PRIMARY KEY (`restaurant_id`)
+  PRIMARY KEY (`restaurant_id`),
+  UNIQUE (name)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
@@ -26,7 +27,8 @@ CREATE TABLE `user` (
   `password` varchar(100) NOT NULL,
   `role` INT NOT NULL,
   `status` int NOT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE (username)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
