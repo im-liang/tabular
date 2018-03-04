@@ -7,11 +7,7 @@ import com.tabular.tabular.enums.UserStatusEnum;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -19,10 +15,9 @@ import java.util.List;
 public class UserDaoTest extends BaseTests {
     @Autowired
     UserDao userDao;
-    private long customerId;
+    private long userId;
 
     private void checkUserEquality(User user, String username, String password, int role, int status) {
-        System.out.println("restaurant id: " + user.getUserId());
         Assert.isTrue(user.getUsername().equals(username), "user username is not matched");
         Assert.isTrue(user.getPassword().equals(password), "user password is not matched");
         Assert.isTrue(user.getRole() == role, "user role is not matched");
@@ -31,83 +26,142 @@ public class UserDaoTest extends BaseTests {
 
     @Before
     public void initTest() {
-        userDao.createUser(new User("customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
-        userDao.createUser(new User("owner", "password", UserRoleEnum.OWNER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
-        userDao.createUser(new User("waiter", "password", UserRoleEnum.WAITER.getRole(), UserStatusEnum.ACTIVE.getStatus()));
-
-        customerId = userDao.queryUserByUsername("customer").getUserId();
-    }
-
-    @Test
-    public void testCreateUser() throws Exception {
-        User user = new User("test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        User user = new User("customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
         userDao.createUser(user);
-        checkUserEquality(user, "test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userId = user.getUserId();
     }
 
     @Test
-    public void testQueryUserById() throws Exception {
-        User user = userDao.queryUserById(customerId);
-        checkUserEquality(user, user.getUsername(), user.getPassword(), user.getRole(), user.getStatus());
+    public void createUser_duplicateUsername_return0() throws Exception {
+        User user = new User("customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        int result = userDao.createUser(user);
+        Assert.isTrue(result == 0, "createUser_duplicateUsername_return0: insert duplicated");
     }
 
     @Test
-    public void testQueryUserByUsername() throws Exception {
+    public void createUser_uniqueUsername_return1() throws Exception {
+        User user = new User("test", "pass", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        int result = userDao.createUser(user);
+        Assert.isTrue(result == 1, "createUser_uniqueUsername_return1: insert failed");
+        checkUserEquality(user, "test", "pass", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+    }
+
+    @Test
+    public void queryUserById_invalidId_returnNull() throws Exception {
+        User user = userDao.queryUserById(-1);
+        Assert.isTrue(user == null, "queryUserById_invalidId_returnNull: return failed");
+    }
+
+    @Test
+    public void queryUserById_validId_returnUser() throws Exception {
+        User user = userDao.queryUserById(userId);
+        Assert.isTrue(user != null, "queryUserById_validId_returnUser: return failed");
+        checkUserEquality(user, "customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+    }
+
+    @Test
+    public void queryUserByUsername_invalidUsername_returnNull() throws Exception {
+        User user = userDao.queryUserByUsername("");
+        Assert.isTrue(user == null, "queryUserByUsername_validUsername_returnNull: return failed");
+    }
+
+    @Test
+    public void queryUserByUsername_validUsername_returnUser() throws Exception {
         User user = userDao.queryUserByUsername("customer");
-        checkUserEquality(user, user.getUsername(), user.getPassword(), user.getRole(), user.getStatus());
+        Assert.isTrue(user != null, "queryUserByUsername_validUsername_returnNull: return failed");
+        checkUserEquality(user, "customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
     }
 
     @Test
-    public void testQueryUserByRole() throws Exception {
-        List<User> users = userDao.queryUserByRole(UserRoleEnum.OWNER.getRole());
-        Assert.isTrue(users.size() == 1, "testQueryUserByRole fail");
+    public void queryUserByRole_invalidRole_returnEmptyList() throws Exception {
+        List<User> users = userDao.queryUserByRole(-1);
+        Assert.isTrue(users.size() == 0, "queryUserByRole_invalidRole_returnEmptyList: search not match");
     }
 
     @Test
-    public void testQueryUserByStatus() throws Exception {
+    public void queryUserByRole_validRole_returnList() throws Exception {
+        List<User> users = userDao.queryUserByRole(UserRoleEnum.CUSTOMER.getRole());
+        Assert.isTrue(users.size() == 1, "queryUserByRole_validRole_returnList: search fail");
+        checkUserEquality(users.get(0), "customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+    }
+
+    @Test
+    public void queryUserByStatus_invalidStatus_returnEmptyList() throws Exception {
+        List<User> users = userDao.queryUserByStatus(-1);
+        Assert.isTrue(users.size() == 0, "queryUserByStatus_invalidStatus_returnEmptyList: search fail");
+    }
+
+    @Test
+    public void queryUserByStatus_validStatus_returnList() throws Exception {
         List<User> users = userDao.queryUserByStatus(UserStatusEnum.ACTIVE.getStatus());
-        Assert.isTrue(users.size() == 3, "testQueryUserByStatus fail");
+        Assert.isTrue(users.size() == 1, "queryUserByStatus_validStatus_returnList: search fail");
+        checkUserEquality(users.get(0), "customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
     }
 
     @Test
-    public void testQueryAll() throws Exception {
+    public void queryAll() throws Exception {
         List<User> users = userDao.queryAll();
-        Assert.isTrue(users.size() == 3, "testQueryAll fail");
+        Assert.isTrue(users.size() == 1, "queryAll fail");
+        checkUserEquality(users.get(0), "customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
     }
 
     @Test
-    public void testModifyUsername() throws Exception {
-        userDao.modifyUsername(customerId, "hello");
-        User user = userDao.queryUserById(customerId);
-        Assert.isTrue(user.getUsername().equals("hello"), "testModifyUsername fail");
+    public void modifyUsername_InvalidId_return0() throws Exception {
+        int affectedRow = userDao.modifyUsername(-1, "hello");
+        Assert.isTrue(affectedRow == 0, "modifyUsername_InvalidId_return0 fail");
     }
 
     @Test
-    public void testModifyUserPassword() throws Exception {
-        userDao.modifyUserPassword(customerId, "yoyoyo");
-        User user = userDao.queryUserById(customerId);
-        Assert.isTrue(user.getPassword().equals("yoyoyo"), "testModifyUserPassword fail");
+    public void modifyUsername_validId_return1() throws Exception {
+        int affectedRow = userDao.modifyUsername(userId, "hello");
+        Assert.isTrue(affectedRow == 1, "modifyUsername_validUsernameAndId_return1 fail");
+        User user = userDao.queryUserById(userId);
+        checkUserEquality(user, "hello", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
     }
 
     @Test
-    public void testModifyUserRole() throws Exception {
-        userDao.modifyUserRole(customerId, UserRoleEnum.OWNER.getRole());
-        User user = userDao.queryUserById(customerId);
-        Assert.isTrue(user.getRole() == UserRoleEnum.OWNER.getRole(), "testModifyUserPassword fail");
+    public void modifyUserPassword_invalidId_return0() throws Exception {
+        int affectRow = userDao.modifyUserPassword(-1, "yoyoyo");
+        Assert.isTrue(affectRow == 0, "modifyUserPassword_invalidId_return0 fail");
     }
 
     @Test
-    public void testModifyUserStatus() throws Exception {
-        userDao.modifyUserStatus(customerId, UserStatusEnum.INACTIVE.getStatus());
-        User user = userDao.queryUserById(customerId);
-        Assert.isTrue(user.getStatus() == UserStatusEnum.INACTIVE.getStatus(), "testModifyUserPassword fail");
+    public void modifyUserPassword_validId_return1() throws Exception {
+        userDao.modifyUserPassword(userId, "yoyoyo");
+        User user = userDao.queryUserById(userId);
+        checkUserEquality(user, "customer", "yoyoyo", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+    }
+
+    @Test
+    public void modifyUserRole_invalidId_return0() throws Exception {
+        int affectRow = userDao.modifyUserRole(-1, UserRoleEnum.OWNER.getRole());
+        Assert.isTrue(affectRow == 0, "modifyUserRole_invalidId_return0 fail");
+    }
+
+    @Test
+    public void modifyUserRole_validId_return1() throws Exception {
+        userDao.modifyUserRole(userId, UserRoleEnum.OWNER.getRole());
+        User user = userDao.queryUserById(userId);
+        Assert.isTrue(user.getRole() == UserRoleEnum.OWNER.getRole(), "modifyUserRole_validRole_return1 fail");
+    }
+
+    @Test
+    public void modifyUserStatus_invalidId_return0() throws Exception {
+        int affectRow = userDao.modifyUserStatus(-1, UserStatusEnum.INACTIVE.getStatus());
+        Assert.isTrue(affectRow == 0, "modifyUserStatus_invalidId_return0 fail");
+    }
+
+    @Test
+    public void modifyUserStatus_validId_return1() throws Exception {
+        int affectRow = userDao.modifyUserStatus(userId, UserStatusEnum.INACTIVE.getStatus());
+        Assert.isTrue(affectRow == 1, "modifyUserStatus_validId_return1 fail");
+        User user = userDao.queryUserById(userId);
+        checkUserEquality(user, "customer", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.INACTIVE.getStatus());
     }
 
     @After
     public void cleanup() {
-        userDao.deleteUserById(customerId);
-        userDao.deleteUserByName("owner");
-        userDao.deleteUserByName("waiter");
+        userDao.deleteUserById(userId);
         userDao.deleteUserByName("test");
     }
 }
