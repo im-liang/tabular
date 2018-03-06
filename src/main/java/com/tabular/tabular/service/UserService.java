@@ -10,32 +10,46 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
-    UserDao userDao;
+    private UserDao userDao;
 
     public User queryUserById(long userId) {
+        checkId(userId);
         return userDao.queryUserById(userId);
     }
 
     public User queryUserByUsername(String username) {
+        checkUsername(username);
         return userDao.queryUserByUsername(username);
     }
 
-    int changeUsername(long userId, String username){
-        return userDao.modifyUsername(userId, username);
+    public boolean changeUsername(long userId, String username){
+        checkId(userId);
+        checkUsername(username);
+        if(queryUserByUsername(username) != null) {
+            return false;
+        }
+        int affectedRow = userDao.modifyUsername(userId, username);
+        return affectedRow == 1;
     }
 
-    int changePassword(long userId, String password){
-        return userDao.modifyUserPassword(userId, password);
+    public boolean changePassword(long userId, String password){
+        checkId(userId);
+        checkPassword(password);
+        int affectedRow = userDao.modifyUserPassword(userId, password);
+        return affectedRow == 1;
     }
 
-    int deleteUserById(long userId){
-        return userDao.deleteUserById(userId);
+    public boolean deleteUserById(long userId){
+        checkId(userId);
+        int affectedRow = userDao.deleteUserById(userId);
+        return affectedRow == 1;
     }
 
-    int deleteUserByName(String username){
-        return userDao.deleteUserByName(username);
+    public boolean deleteUserByName(String username){
+        checkUsername(username);
+        int affectedRow = userDao.deleteUserByName(username);
+        return affectedRow == 1;
     }
-
 
     /**
      * create a user which role is customer
@@ -82,13 +96,9 @@ public class UserService {
      * @param userId
      * @return boolean
      */
-    boolean activateUser(long userId){
+    public boolean activateUser(long userId){
         int affectedRow = userDao.modifyUserStatus(userId, UserStatusEnum.ACTIVE.getStatus());
-        if(affectedRow <= 0) {
-            return false;
-        }else {
-            return true;
-        }
+        return affectedRow == 1;
     }
 
     /**
@@ -97,12 +107,26 @@ public class UserService {
      * @param userId
      * @return affected row
      */
-    boolean deActivateUser(long userId){
+    public boolean deActivateUser(long userId){
         int affectedRow = userDao.modifyUserStatus(userId, UserStatusEnum.INACTIVE.getStatus());
-        if(affectedRow <= 0) {
-            return false;
-        }else {
-            return true;
+        return affectedRow == 1;
+    }
+
+    private void checkId(long userId) {
+        if(userId < 0) {
+            throw new IllegalArgumentException("invalid user id");
+        }
+    }
+
+    private void checkUsername(String username) {
+        if(username == null || username.equals("")) {
+            throw new IllegalArgumentException("invalid username");
+        }
+    }
+
+    private void checkPassword(String password) {
+        if(password == null || password.equals("")) {
+            throw new IllegalArgumentException("invalid password");
         }
     }
 }
