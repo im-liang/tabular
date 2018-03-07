@@ -28,7 +28,7 @@ public class UserServiceTest extends BaseTests {
         customerId = userService.createUserAsCustomer("customer", "password+c");
         waiterId = userService.createUserAsWaiter("waiter", "password+w");
         ownerId = userService.createUserAsOwner("owner", "password+o");
-        userService.deActivateUser(waiterId);
+        userService.deactivateUser(waiterId);
     }
 
     @Test
@@ -43,7 +43,7 @@ public class UserServiceTest extends BaseTests {
 
     @Test
     public void testDeactivateUser() throws Exception {
-        boolean result = userService.deActivateUser(customerId);
+        boolean result = userService.deactivateUser(customerId);
         Assert.isTrue(result, "testDeactivateUser fail");
         User user = userService.queryUserById(customerId);
         Assert.isTrue(user.getStatus() == UserStatusEnum.INACTIVE.getStatus(), "testDeactivateUser fail");

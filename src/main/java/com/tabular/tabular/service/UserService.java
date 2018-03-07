@@ -4,27 +4,40 @@ import com.tabular.tabular.dao.UserDao;
 import com.tabular.tabular.entity.User;
 import com.tabular.tabular.enums.UserRoleEnum;
 import com.tabular.tabular.enums.UserStatusEnum;
+import com.tabular.tabular.service.blueprint.UserServiceBlueprint;
+import com.tabular.tabular.service.utility.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class UserService implements UserServiceBlueprint {
     @Autowired
     private UserDao userDao;
 
+    @Override
     public User queryUserById(long userId) {
-        checkId(userId);
-        return userDao.queryUserById(userId);
+        if(Validator.validateUserId(userId)) {
+            return userDao.queryUserById(userId);
+        }else {
+            return null;
+        }
     }
 
+    @Override
     public User queryUserByUsername(String username) {
-        checkUsername(username);
-        return userDao.queryUserByUsername(username);
+        if(Validator.validateUsername(username)) {
+            return userDao.queryUserByUsername(username);
+        }else {
+            return null;
+        }
     }
 
-    public boolean changeUsername(long userId, String username){
-        checkId(userId);
-        checkUsername(username);
+    @Override
+    public boolean changeUsername(long userId, String username) {
+        if(Validator.validateUserId(userId) && Validator.validateUsername(username)) {
+            return false;
+        }
+
         if(queryUserByUsername(username) != null) {
             return false;
         }
@@ -32,101 +45,83 @@ public class UserService {
         return affectedRow == 1;
     }
 
-    public boolean changePassword(long userId, String password){
-        checkId(userId);
-        checkPassword(password);
+    @Override
+    public boolean changePassword(long userId, String password) {
+        if(Validator.validateUserId(userId) && Validator.validatePassword(password)) {
+            return false;
+        }
         int affectedRow = userDao.modifyUserPassword(userId, password);
         return affectedRow == 1;
     }
 
-    public boolean deleteUserById(long userId){
-        checkId(userId);
+    @Override
+    public boolean deleteUserById(long userId) {
+        if(Validator.validateUserId(userId)) {
+            return false;
+        }
         int affectedRow = userDao.deleteUserById(userId);
         return affectedRow == 1;
     }
 
-    public boolean deleteUserByName(String username){
-        checkUsername(username);
+    @Override
+    public boolean deleteUserByName(String username) {
+        if(Validator.validateUsername(username)) {
+            return false;
+        }
         int affectedRow = userDao.deleteUserByName(username);
         return affectedRow == 1;
     }
 
-    /**
-     * create a user which role is customer
-     *
-     * @param username
-     * @param password
-     * @return user id
-     */
+    @Override
     public long createUserAsCustomer(String username, String password) {
-        User user = new User(username, password, UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userDao.createUser(user);
-        return user.getUserId();
+        if(Validator.validateUsername(username) && Validator.validatePassword(password) && queryUserByUsername(username) == null) {
+            User user = new User(username, password, UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+            userDao.createUser(user);
+            return user.getUserId();
+        }else {
+            return -1;
+        }
     }
 
-    /**
-     * create a user which role is waiter
-     *
-     * @param username
-     * @param password
-     * @return user id
-     */
+    @Override
     public long createUserAsWaiter(String username, String password) {
-        User user = new User(username, password, UserRoleEnum.WAITER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userDao.createUser(user);
-        return user.getUserId();
+        if(Validator.validateUsername(username) && Validator.validatePassword(password) && queryUserByUsername(username) == null) {
+            User user = new User(username, password, UserRoleEnum.WAITER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+            userDao.createUser(user);
+            return user.getUserId();
+        }else {
+            return -1;
+        }
     }
 
-    /**
-     * create a user which role is owner
-     *
-     * @param username
-     * @param password
-     * @return user id
-     */
+    @Override
     public long createUserAsOwner(String username, String password) {
-        User user = new User(username, password, UserRoleEnum.OWNER.getRole(), UserStatusEnum.ACTIVE.getStatus());
-        userDao.createUser(user);
-        return user.getUserId();
-    }
-
-    /**
-     * create a relation entry between appointment and user
-     *
-     * @param userId
-     * @return boolean
-     */
-    public boolean activateUser(long userId){
-        int affectedRow = userDao.modifyUserStatus(userId, UserStatusEnum.ACTIVE.getStatus());
-        return affectedRow == 1;
-    }
-
-    /**
-     * create a relation entry between appointment and user
-     *
-     * @param userId
-     * @return affected row
-     */
-    public boolean deActivateUser(long userId){
-        int affectedRow = userDao.modifyUserStatus(userId, UserStatusEnum.INACTIVE.getStatus());
-        return affectedRow == 1;
-    }
-
-    private void checkId(long userId) {
-        if(userId < 0) {
-            throw new IllegalArgumentException("invalid user id");
+        if(Validator.validateUsername(username) && Validator.validatePassword(password) && queryUserByUsername(username) == null) {
+            User user = new User(username, password, UserRoleEnum.OWNER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+            userDao.createUser(user);
+            return user.getUserId();
+        }else {
+            return -1;
         }
     }
 
-    private void checkUsername(String username) {
-        if(username == null || username.equals("")) {
-            throw new IllegalArgumentException("invalid username");
+    @Override
+    public boolean activateUser(long userId) {
+        if(Validator.validateUserId(userId)) {
+            int affectedRow = userDao.modifyUserStatus(userId, UserStatusEnum.ACTIVE.getStatus());
+            return affectedRow == 1;
+        }else {
+            return false;
         }
     }
 
-    private void checkPassword(String password) {
-        if(password == null || password.equals("")) {
-            throw new IllegalArgumentException("invalid password");
+    @Override
+    public boolean deactivateUser(long userId) {
+        if(Validator.validateUserId(userId)) {
+            int affectedRow = userDao.modifyUserStatus(userId, UserStatusEnum.INACTIVE.getStatus());
+            return affectedRow == 1;
+        }else {
+            return false;
         }
     }
 }
