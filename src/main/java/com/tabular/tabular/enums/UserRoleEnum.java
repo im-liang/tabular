@@ -12,4 +12,12 @@ public enum UserRoleEnum {
     public int getRole() {
         return role;
     }
+
+    public static boolean isRoleValid(int role) {
+        if(role >= 0 && role <= 2) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

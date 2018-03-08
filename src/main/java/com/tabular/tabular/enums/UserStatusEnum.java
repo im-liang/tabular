@@ -12,4 +12,12 @@ public enum UserStatusEnum {
     public int getStatus() {
         return status;
     }
+
+    public static boolean isStatusValid(int status) {
+        if(status >= 0 && status <= 1) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
