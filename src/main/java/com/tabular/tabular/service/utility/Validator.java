@@ -1,5 +1,7 @@
 package com.tabular.tabular.service.utility;
 
+import com.tabular.tabular.enums.AppointmentStatusEnum;
+
 public class Validator {
     public static boolean validateRestaurantId(long restaurantId) {
         if(restaurantId < 0) {
@@ -20,6 +22,38 @@ public class Validator {
             return false;
         }
         return true;
+    }
+
+    public static boolean validateStreet(String street) {
+        if(street == null || street.equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateCity(String city) {
+        if(city == null || city.equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateState(String state) {
+        if(state == null || state.equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateZip(String zip) {
+        if(zip == null || zip.equals("")) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean validateAppointmentStatus(int status) {
+        return AppointmentStatusEnum.isStatusValid(status);
     }
 
     public static boolean validateUserId(long userId) {
