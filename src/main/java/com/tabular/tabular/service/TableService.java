@@ -5,9 +5,11 @@ import com.tabular.tabular.entity.Table;
 import com.tabular.tabular.service.blueprint.TableServiceBlueprint;
 import com.tabular.tabular.service.utility.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class TableService implements TableServiceBlueprint {
     @Autowired
     private TableDao tableDao;

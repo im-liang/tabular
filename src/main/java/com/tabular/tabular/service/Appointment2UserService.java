@@ -5,10 +5,12 @@ import com.tabular.tabular.entity.Appointment2User;
 import com.tabular.tabular.service.blueprint.Appointment2UserServiceBlueprint;
 import com.tabular.tabular.service.utility.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class Appointment2UserService implements Appointment2UserServiceBlueprint{
     @Autowired
     private Appointment2UserDao appointment2UserDao;
