@@ -1,6 +1,7 @@
 package com.tabular.tabular.dao;
 
 import com.tabular.tabular.entity.Appointment2User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,10 @@ public interface Appointment2UserDao {
      * @return affected row
      */
     int createRelation(final Appointment2User appointment2User);
+
+    Appointment2User queryRelationByRelationId(long appointment2userId);
+
+    Appointment2User checkDuplicateRelation(@Param("appointmentId") long appointmentId, @Param("userId") long userId);
 
     /**
      * find list of relations based on appointment

@@ -30,7 +30,7 @@ public class Appointment2UserDaoTest extends BaseTests {
     @Autowired
     private Appointment2UserDao appointment2UserDao;
 
-    private long userId, appointmentId, relationId;
+    private long tableId, userId, userIdToCheckDuplicateRelation, appointmentId, appointmentIdToCheckDuplicateRelation, relationId;
 
     private void checkRelationEquality(Appointment2User appointment2User, long relationId, long appointmentId, long userId) {
         Assert.isTrue(appointment2User.getAppointment2UserId() == relationId, "relationId is not matched");
@@ -50,7 +50,7 @@ public class Appointment2UserDaoTest extends BaseTests {
 
         Table table = new Table("table", 3, restaurantId);
         tableDao.insertTable(table);
-        long tableId = table.getTableId();
+        tableId = table.getTableId();
 
         Appointment appointment = new Appointment(new Date(118, 9, 15), AppointmentStatusEnum.CONFIRMED.getStatus(), tableId);
         appointmentDao.createAppointment(appointment);
@@ -59,6 +59,27 @@ public class Appointment2UserDaoTest extends BaseTests {
         Appointment2User relation = new Appointment2User(appointmentId, userId);
         appointment2UserDao.createRelation(relation);
         relationId = relation.getAppointment2UserId();
+    }
+
+    @Test
+    public void checkDuplicateRelation_duplicateRelation_returnRelation() throws Exception {
+        Appointment2User relation = appointment2UserDao.checkDuplicateRelation(appointmentId, userId);
+        Assert.isTrue(relation != null, "checkDuplicateRelation_duplicateRelation_returnRelation fail");
+        checkRelationEquality(relation, relationId, appointmentId, userId);
+    }
+
+    @Test
+    public void checkDuplicateRelation_duplicateRelation_returnNull() throws Exception {
+        Appointment appointment = new Appointment(new Date(), AppointmentStatusEnum.CONFIRMED.getStatus(), tableId);
+        appointmentDao.createAppointment(appointment);
+        appointmentIdToCheckDuplicateRelation = appointment.getAppointmentId();
+
+        User user = new User("test", "password", UserRoleEnum.CUSTOMER.getRole(), UserStatusEnum.ACTIVE.getStatus());
+        userDao.createUser(user);
+        userIdToCheckDuplicateRelation = user.getUserId();
+
+        Appointment2User relation = appointment2UserDao.checkDuplicateRelation(appointment.getAppointmentId(), user.getUserId());
+        Assert.isTrue(relation == null, "checkDuplicateRelation_duplicateRelation_returnNull fail");
     }
 
     @Test
@@ -93,7 +114,9 @@ public class Appointment2UserDaoTest extends BaseTests {
     public void cleanup() {
         appointment2UserDao.deleteRelation(relationId);
         userDao.deleteUserById(userId);
+        userDao.deleteUserById(userIdToCheckDuplicateRelation);
         appointmentDao.deleteAppointmentById(appointmentId);
+        appointmentDao.deleteAppointmentById(appointmentIdToCheckDuplicateRelation);
         restaurantDao.deleteRestaurantByName("restaurant");
     }
 }

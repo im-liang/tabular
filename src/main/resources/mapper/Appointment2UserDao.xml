@@ -11,6 +11,13 @@
         VALUES (#{appointmentId}, #{userId})
     </insert>
 
+    <select id="queryRelationByRelationId" parameterType="long" resultType="Appointment2User">
+        SELECT
+            *
+        FROM appointment2user
+        WHERE appointment2user_id = #{appointment2userId}
+    </select>
+
     <select id="queryByAppointmentId" parameterType="long" resultType="Appointment2User">
         SELECT
         *
@@ -23,6 +30,13 @@
             *
         FROM appointment2user
         WHERE user_id = #{userId}
+    </select>
+
+    <select id="checkDuplicateRelation" resultType="Appointment2User">
+        SELECT
+        *
+        FROM appointment2user
+        WHERE appointment_id = #{appointmentId} AND user_id = #{userId}
     </select>
 
     <select id="queryPastRelations" parameterType="Date" resultType="Appointment2User">
