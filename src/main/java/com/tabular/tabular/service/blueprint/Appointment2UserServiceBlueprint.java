@@ -13,7 +13,24 @@ public interface Appointment2UserServiceBlueprint {
      * @param userId
      * @return boolean indicate if such relation is created
      */
-    boolean createRelation(long appointmentId, long userId);
+    long createRelation(long appointmentId, long userId);
+
+    /**
+     * find the relation associated with the appointment2user id
+     *
+     * @param appointment2userId
+     * @return relation
+     */
+    Appointment2User queryRelationByRelationId(long appointment2userId);
+
+    /**
+     * find the relation associated with the appointment2user id and user id
+     *
+     * @param appointmentId
+     * @param userId
+     * @return relation
+     */
+    boolean isRelationExist(long appointmentId, long userId);
 
     /**
      * find a list of relations associated with the appointment id
