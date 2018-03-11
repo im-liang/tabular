@@ -1,4 +1,4 @@
-package com.tabular.tabular.exception;
+package com.tabular.tabular.exception.restaurant;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
