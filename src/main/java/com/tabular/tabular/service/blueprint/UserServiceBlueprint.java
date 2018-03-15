@@ -3,13 +3,6 @@ package com.tabular.tabular.service.blueprint;
 import com.tabular.tabular.entity.User;
 
 public interface UserServiceBlueprint {
-    User queryUserById(long userId);
-    User queryUserByUsername(String username);
-    boolean changeUsername(long userId, String username);
-    boolean changePassword(long userId, String password);
-    boolean deleteUserById(long userId);
-    boolean deleteUserByName(String username);
-
     /**
      * create a user which role is customer
      *
@@ -52,4 +45,54 @@ public interface UserServiceBlueprint {
      * @return affected row
      */
     boolean deactivateUser(long userId);
+
+    /**
+     * find user using the user id
+     *
+     * @param userId
+     * @return user
+     */
+    User queryUserById(long userId);
+
+    /**
+     * find user using the username
+     *
+     * @param username
+     * @return user
+     */
+    User queryUserByUsername(String username);
+
+    /**
+     * modify username of the user
+     *
+     * @param userId
+     * @param username
+     * @return boolean indicate if the modification is successful
+     */
+    boolean changeUsername(long userId, String username);
+
+    /**
+     * modify password of the user
+     *
+     * @param userId
+     * @param password
+     * @return boolean indicate if the modification is successful
+     */
+    boolean changePassword(long userId, String password);
+
+    /**
+     * delete the user using userId
+     *
+     * @param userId
+     * @return boolean indicate if the deletion is successful
+     */
+    boolean deleteUserById(long userId);
+
+    /**
+     * delete the user using username
+     *
+     * @param username
+     * @return boolean indicate if the deletion is successful
+     */
+    boolean deleteUserByName(String username);
 }

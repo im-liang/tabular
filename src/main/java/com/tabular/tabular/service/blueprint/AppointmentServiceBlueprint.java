@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface AppointmentServiceBlueprint {
-    boolean createAppointment(Date datetime, int status, long tableId);
+    long createAppointment(Date datetime, int status, long tableId);
     Appointment queryAppointmentById(long appointmentId);
     List<Appointment> queryAppointmentByTimeRange(long tableId, Date startTime, Date endTime);
     List<Appointment> queryAllPastAppointment(long tableId, Date dateTime);

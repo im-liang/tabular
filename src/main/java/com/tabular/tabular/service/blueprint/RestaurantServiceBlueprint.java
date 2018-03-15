@@ -13,7 +13,7 @@ public interface RestaurantServiceBlueprint {
     List<Restaurant> queryRestaurantByZip(String zip);
     Restaurant queryRestaurantByAddress(String street, String city, String state, String zip);
     List<Restaurant> queryAll();
-    long createRestaurant(String name, String phone, String street, String city, String state, String zip);
+    long createRestaurant(Restaurant restaurant);
     boolean modifyRestaurantName(long restaurantId, String name);
     boolean modifyRestaurantPhone(long restaurantId, String phone);
     boolean modifyRestaurantAddress(long restaurantId, String street, String city, String state, String zip);

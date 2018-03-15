@@ -5,7 +5,7 @@ import com.tabular.tabular.entity.Table;
 import java.util.List;
 
 public interface TableServiceBlueprint {
-    long insertTable(String name, int numberLimit, long restaurantId);
+    long insertTable(Table table);
     Table queryTableById(long tableId);
     Table queryRestaurantTableByName(String name, long restaurantId);
     List<Table> queryRestaurantTableByLimit(long restaurantId, int numberLimit);
